@@ -1,1 +1,3 @@
 quite possibly make albums and playlists download into a "downloads folder" and make the "songs" folder appear there
+
+NVM just put gitignores in em
