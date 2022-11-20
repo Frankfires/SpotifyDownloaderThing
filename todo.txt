@@ -1,3 +1,7 @@
-quite possibly make albums and playlists download into a "downloads folder" and make the "songs" folder appear there
+TODO:
 
-NVM just put gitignores in em
+- fancy ass UI for managing & downloading songs
+
+- support for other music streaming platforms
+
+- do shit about unfinished downloads

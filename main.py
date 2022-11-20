@@ -53,11 +53,18 @@ def DownloadSong(Name, Directory, Album):
         os.chdir(Destination)
 
     DesiredPath = f"{Destination}\\{FileName}.mp3"
+    ShitPath = ""
     if not os.path.isfile(DesiredPath):
         os.system(f"youtube-dl --restrict-filenames --add-metadata -x --audio-format mp3 {link}")
+        gitignore = open(".gitignore", "w")
+        gitignore.write("*")
+        gitignore.close()
         list_of_files = glob.glob(f"{Destination}\\*")  # * means all if need specific format then *.csv
-        latest_file = max(list_of_files, key=os.path.getctime)
-        ShitPath = latest_file
+        if True:#list_of_files != []:
+            latest_file = max(list_of_files, key=os.path.getctime)
+            ShitPath = latest_file
+        else:
+            ShitPath = DesiredPath
         os.rename(ShitPath, DesiredPath)
 
         Meta = EasyID3(DesiredPath)
