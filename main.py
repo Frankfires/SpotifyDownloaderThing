@@ -59,12 +59,9 @@ def DownloadSong(Name, Directory, Album):
         gitignore = open(".gitignore", "w")
         gitignore.write("*")
         gitignore.close()
-        list_of_files = glob.glob(f"{Destination}\\*")  # * means all if need specific format then *.csv
-        if True:#list_of_files != []:
-            latest_file = max(list_of_files, key=os.path.getctime)
-            ShitPath = latest_file
-        else:
-            ShitPath = DesiredPath
+        list_of_files = glob.glob(f"{Destination}\\*")  # * means all if need specific format then *.formatname
+        latest_file = max(list_of_files, key=os.path.getctime)
+        ShitPath = latest_file
         os.rename(ShitPath, DesiredPath)
 
         Meta = EasyID3(DesiredPath)
@@ -84,8 +81,8 @@ def DownloadSong(Name, Directory, Album):
 def main():
     MediaUrl = input("Enter Spotify Url:\n")
     SpotifyUrl = MediaUrl.split("/")
-    ID = SpotifyUrl[len(SpotifyUrl) - 1]
-    MediaType = SpotifyUrl[len(SpotifyUrl) - 2]
+    ID = SpotifyUrl[-1]
+    MediaType = SpotifyUrl[-2]
     SpotifyUrl = f"spotify:{MediaType}:{ID}"
 
     if MediaType == "playlist":
