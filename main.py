@@ -1,3 +1,6 @@
+from cgitb import text
+import tkinter
+from tkinter.tix import ROW
 from mutagen.id3 import APIC, ID3
 import glob
 from mutagen.easyid3 import EasyID3
@@ -6,6 +9,8 @@ from yt_dlp import YoutubeDL
 import spotipy
 import os
 from youtubesearchpython import VideosSearch
+from tkinter import *
+from tkinter import ttk
 
 YTDL = YoutubeDL()
 Spotipe = spotipy.Spotify(auth_manager=spotipy.SpotifyClientCredentials(client_id="7e4d774b54a0431487f59eab9af61138", client_secret="525461cc1fa343de856dc138755ea0f5"))
@@ -125,6 +130,26 @@ def main():
             DownloadSong(Video, f'{dir_path}\\{AlbumName} - {AlbumAuthors}\\{Video.replace("/", "")}.mp3', (AlbumName, AlbumCover))
 
 
+def poopshit():
+    global entry
+    a = entry.get()
+
+
 if __name__ == "__main__":
-    main()
-    input("Press ENTER to continue...\n")
+    #main()
+    #tkinter._test()
+    root = Tk()
+    frame = ttk.Frame(root, padding=250)
+    ttk.Label(frame, text="Hello World!").grid(column=0, row=0)
+    ttk.Button(frame, text="buh", command=main).grid(column=0, row=2)
+    ttk.Button(frame, text="Quit", command=root.destroy).grid(column=0, row=1)
+
+    label = Label(frame, text="hoj")
+    entry = Entry(frame, width = 40)
+    entry.focus_set()
+
+    frame.grid()
+    frame.pack(anchor="center")
+    root.mainloop()
+    #input("Press ENTER to continue...\n")
+
