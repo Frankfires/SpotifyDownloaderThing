@@ -11,7 +11,7 @@ YTDL = YoutubeDL()
 Spotipe = spotipy.Spotify(auth_manager=spotipy.SpotifyClientCredentials(client_id="7e4d774b54a0431487f59eab9af61138", client_secret="525461cc1fa343de856dc138755ea0f5"))
 
 def RemoveUnacceptableCharacters(string):
-    return string.replace(":", "").replace(">", "").replace("<", "").replace("?", "").replace("|", "").replace("/", "").replace("\\", "")
+    return string.replace(":", "").replace(">", "").replace("<", "").replace("?", "").replace("|", "").replace("/", "").replace("\\", "").replace("【", "(").replace("】", ")").replace('"', "''")
 
 def GetSongName(Song, FromPlaylist):
     if FromPlaylist:
@@ -24,9 +24,11 @@ def GetSongName(Song, FromPlaylist):
 
     return f"{Song['name']} - {Artists}"
 
-def GetSongCoverUrl(Song):
+def GetSongCoverUrl(Song, FromPlaylist = False):
     CoverUrl = ""
     Largest = 0
+    if FromPlaylist:
+        Song = Song["track"]
     for Cover in Song["album"]["images"]:
         if Cover["height"] > Largest:
             Largest = Cover["height"]
@@ -44,7 +46,7 @@ def DownloadSong(Name, Directory, Album):
     Destination.remove(FileName)
     Destination[-1] = RemoveUnacceptableCharacters(Destination[-1])
     Destination = "\\".join(Destination)
-    FileName = Name.split(" - ")[0]
+    FileName = RemoveUnacceptableCharacters(Name.split(" - ")[0])
 
     try:
         os.chdir(Destination)
@@ -55,7 +57,7 @@ def DownloadSong(Name, Directory, Album):
     DesiredPath = f"{Destination}\\{FileName}.mp3"
     ShitPath = ""
     if not os.path.isfile(DesiredPath):
-        os.system(f"youtube-dl --restrict-filenames --add-metadata -x --audio-format mp3 {link}")
+        os.system(f"yt-dlp --restrict-filenames --add-metadata -x --audio-format mp3 {link}")
         gitignore = open(".gitignore", "w")
         gitignore.write("*")
         gitignore.close()
@@ -110,7 +112,7 @@ def main():
     if MediaType == "playlist":
         Queries = []
         for Track in Playlist:
-            Queries.append((GetSongName(Track, True), (Track["track"]["album"]["name"], GetSongCoverUrl(Track))))
+            Queries.append((GetSongName(Track, True), (Track["track"]["album"]["name"], GetSongCoverUrl(Track, True))))
 
         for Video in Queries:
             DownloadSong(Video[0], f'{dir_path}\\{PlaylistName}\\{Video[0].replace("/", "")}.mp3', Video[1])
