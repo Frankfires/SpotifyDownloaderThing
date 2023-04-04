@@ -1,7 +1,0 @@
-TODO:
-
-- fancy ass UI for managing & downloading songs
-
-- support for other music streaming platforms
-
-- do shit about unfinished downloads
