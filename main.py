@@ -39,7 +39,11 @@ def GetSongCoverUrl(Song, FromPlaylist = False):
 def DownloadSong(Name, Directory, Album):
     AlbumName = Album[0]
     CoverURL = Album[1]
-    link = VideosSearch(Name, limit=1).result()["result"][0]["link"]
+    try:
+        link = VideosSearch(Name, limit=1).result()["result"][0]["link"]
+    except:
+        print(f"Could not find the song: {Name}")
+        return
     print(f"Downloading: {Name}, from the YouTube url: {link}")
     Destination = Directory.split('\\')
     FileName = Destination[-1]
