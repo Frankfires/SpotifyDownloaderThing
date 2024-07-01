@@ -1,5 +1,5 @@
 # SpotifyDownloaderThing
-Searches Spotify playlists, albums &amp; singles and downloads them collectively by searching for the closest match of each song on YouTube and downloading them via yt-dlp
+Searches Spotify playlists, albums, artists' top songs, &amp; singles and downloads them collectively by searching for the closest match of each song on YouTube and downloading them via yt-dlp
 
 # Usage:
 
