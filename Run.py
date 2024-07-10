@@ -11,8 +11,9 @@ YTDL = YoutubeDL()
 Spotipe = spotipy.Spotify(auth_manager=spotipy.SpotifyClientCredentials(client_id="7e4d774b54a0431487f59eab9af61138", client_secret="525461cc1fa343de856dc138755ea0f5"))
 
 
-def RemoveUnacceptableCharacters(string):
-    return string.replace(":", "").replace("*", "#").replace(">", "").replace("<", "").replace("?", "").replace("|", "").replace("/", "").replace("\\", "").replace("【", "(").replace("】", ")").replace('"', "''")
+def FixName(string):
+    string = string.replace(":", "").replace("*", "#").replace(">", "").replace("<", "").replace("?", "").replace("|", "").replace("/", "").replace("\\", "").replace("【", "(").replace("】", ")").replace('"', "''")
+    return string
 
 
 def GetAlbumCover(Album):
@@ -43,9 +44,9 @@ def DownloadSong(Song, Directory, AccurateMode = True):
     Destination = Directory.split('\\')
     FileName = Destination[-1]
     Destination.remove(FileName)
-    Destination[-1] = RemoveUnacceptableCharacters(Destination[-1])
+    Destination[-1] = FixName(Destination[-1])
     Destination = "\\".join(Destination)
-    FileName = RemoveUnacceptableCharacters(Song.Name.split(" - ")[0])
+    FileName = FixName(Song.Name.split(" - ")[0])
     try:
         os.chdir(Destination)
     except FileNotFoundError:
@@ -54,7 +55,7 @@ def DownloadSong(Song, Directory, AccurateMode = True):
 
     DesiredPath = f"{Destination}\\{FileName}.mp3"
     if not os.path.isfile(DesiredPath):
-        os.system(f"yt-dlp --restrict-filenames --add-metadata -x --audio-format mp3 {link}")
+        os.system(f"yt-dlp --restrict-filenames --rm-cache-dir --add-metadata -x --audio-format mp3 {link}")
         gitignore = open(".gitignore", "w")
         gitignore.write("*")
         gitignore.close()
