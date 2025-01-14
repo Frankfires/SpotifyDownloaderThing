@@ -34,7 +34,7 @@ def DownloadSong(Song, Directory, AccurateMode = True):
 
     try:
         if AccurateMode:
-            link = VideosSearch(f'{Song.Name} {authorz}', limit=1).result()["result"][0]["link"]
+            link = VideosSearch(f'intitle:"{Song.Name}" By: {authorz} -"full album"', limit=1).result()["result"][0]["link"]
         else:
             link = VideosSearch(Song.Name, limit=1).result()["result"][0]["link"]
     except:
@@ -144,10 +144,10 @@ if MediaType == "album":
     AlbumTracks = Album["tracks"]["items"]
 
     for Track in AlbumTracks:
-        artists = ""
-        for artist in Track["artists"]:
-            artists += f'{artist["name"]}; '
-        ThisSong = Song().ManualInit(Track["name"], Album["name"], artists[len(artists)-2], GetAlbumCover(Album))
+        artists = []
+        for artist in Album["artists"]:
+            artists.append(artist["name"])
+        ThisSong = Song().ManualInit(Track["name"], Album["name"], artists, GetAlbumCover(Album))
         DownloadSong(ThisSong, f'{dir_path}\\{Album["name"]}\\')
 
 if MediaType == "track":
