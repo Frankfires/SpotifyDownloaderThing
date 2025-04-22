@@ -34,7 +34,7 @@ def DownloadSong(Song, Directory, AccurateMode = True):
 
     try:
         if AccurateMode:
-            link = VideosSearch(f'intitle:"{Song.Name}" By: {authorz} -"full album"', limit=1).result()["result"][0]["link"]
+            link = VideosSearch(f'intitle:"{Song.Name}" By: {authorz} ', limit=1).result()["result"][0]["link"] #-"full album"
         else:
             link = VideosSearch(Song.Name, limit=1).result()["result"][0]["link"]
     except:
